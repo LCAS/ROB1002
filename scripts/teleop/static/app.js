@@ -36,20 +36,6 @@ document.getElementById('stop').onclick = ev => {
     sendCmd("stop");
 };
 
-document.getElementById('stop-mobile').onclick = ev => {
-    ev.preventDefault();
-    sendCmd("stop");
-};
-
-// Slider Controls
-const speedSlider = document.getElementById('speedSlider');
-
-speedSlider.addEventListener('input', () => {
-    // Update the label element with the current speed value
-    speedLabel.textContent = 'Speed (0-1): ' + speedSlider.value;
-    // Send the speed value to the server
-    sendCmd(`speed:${speedSlider.value}`);
-});
 
 // WASD
 document.addEventListener('keydown', function (event) {

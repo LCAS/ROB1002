@@ -1,0 +1,33 @@
+{% macro slider(name, display_name, starting_value='0.5', min_value='0.1',
+max_value='1.0') -%}
+
+<span>
+  <label id="{{ name }}_label" for="{{ name }}"
+    >{{ display_name }}: {{ starting_value }}</label
+  >
+  <input
+    type="range"
+    id="{{ name }}"
+    min="{{ min_value }}"
+    max="{{ max_value }}"
+    step="0.1"
+    value="{{ starting_value }}"
+  />
+</span>
+
+<script>
+  // Slider Controls
+  const slider = document.getElementById("{{ name }}");
+  const label = document.getElementById("{{ name }}_label");
+
+  slider.addEventListener("input", () => {
+    // Force to float with 1 decimal place
+    let val = parseFloat(slider.value).toFixed(1)
+    // Update the label element with the current speed value
+    label.textContent = "{{ display_name }}: " + str(val);
+    // Send the speed value to the server
+    sendCmd(`{{ name }}:${str(val)}`);
+  });
+</script>
+
+{%- endmacro %}

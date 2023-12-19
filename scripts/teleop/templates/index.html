@@ -1,3 +1,5 @@
+{% import 'macros.html' as macros %}
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -15,65 +17,88 @@
     />
   </head>
   <body>
-    <main>
-      <!-- Icons from https://icon-sets.iconify.design/mdi/ -->
-      <div id="fwd-back">
-        <button class="btn" id="up">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <div id="robot">
+      <div id="camera-box">
+        <img src="{{ url_for('video_feed') }}" id="camera" />
+
+        <div class="fullscreen-button">
+          <svg
+            id="fullscreen-open"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+          >
             <path
               fill="currentColor"
-              d="M15 20H9v-8H4.16L12 4.16L19.84 12H15z"
+              d="M5 5h5v2H7v3H5zm9 0h5v5h-2V7h-3zm3 9h2v5h-5v-2h3zm-7 3v2H5v-5h2v3z"
             />
           </svg>
-        </button>
-        <button class="btn" id="down">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <path fill="currentColor" d="M9 4h6v8h4.84L12 19.84L4.16 12H9z" />
+          <svg
+            id="fullscreen-exit"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+          >
+            <path
+              fill="currentColor"
+              d="M14 14h5v2h-3v3h-2zm-9 0h5v5H8v-3H5zm3-9h2v5H5V8h3zm11 3v2h-5V5h2v3z"
+            />
           </svg>
-        </button>
+        </div>
       </div>
 
-      <img src="{{ url_for('video_feed') }}" id="camera" />
+      <div>
+        <!-- Icons from https://icon-sets.iconify.design/mdi/ -->
 
-      <div class="controls">
-        <div id="left-right">
-          <button class="btn" id="left">
+        <div id="fwd-back">
+          <button class="btn" id="up">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
               <path
                 fill="currentColor"
-                d="M20 9v6h-8v4.84L4.16 12L12 4.16V9z"
+                d="M15 20H9v-8H4.16L12 4.16L19.84 12H15z"
               />
             </svg>
           </button>
-
-          <button class="btn" id="stop">
+          <button class="btn" id="down">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-              <path fill="currentColor" d="M18 18H6V6h12z" />
-            </svg>
-          </button>
-
-          <button class="btn" id="right">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-              <path
-                fill="currentColor"
-                d="M4 15V9h8V4.16L19.84 12L12 19.84V15z"
-              />
+              <path fill="currentColor" d="M9 4h6v8h4.84L12 19.84L4.16 12H9z" />
             </svg>
           </button>
         </div>
-
-        <h1 id="hostname">{{ hostname }}</h1>
       </div>
+      <div id="left-right">
+        <button class="btn" id="left">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path fill="currentColor" d="M20 9v6h-8v4.84L4.16 12L12 4.16V9z" />
+          </svg>
+        </button>
 
-      <button id="stop-mobile">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M3 3v18h18V3"/></svg>
+        <button class="btn" id="right">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path
+              fill="currentColor"
+              d="M4 15V9h8V4.16L19.84 12L12 19.84V15z"
+            />
+          </svg>
+        </button>
+      </div>
+      <button class="btn" id="stop">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path fill="currentColor" d="M18 18H6V6h12z" />
+        </svg>
       </button>
+    </div>
 
-      <label for="speedSlider" id="speedLabel">Speed (0-1): 0.5</label>
-      <input type="range" id="speedSlider" min="0" max="1" step="0.01" value="0.5">
+    <div id="options">
+      <h1 id="hostname">{{ hostname }}</h1>
 
-    </main>
+      {{ macros.slider("speed", "Wheel Speed")}}
 
+      <div>
+        <label class="switch" id="joystick">
+          <input type="checkbox" />
+          <span class="slider round"></span>
+        </label>
+      </div>
+    </div>
     <script src="/app.js"></script>
   </body>
 </html>
