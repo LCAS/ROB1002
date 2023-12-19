@@ -91,14 +91,9 @@
       <h1 id="hostname">{{ hostname }}</h1>
 
       {{ macros.slider("speed", "Wheel Speed")}}
-
-      <div>
-        <label class="switch" id="joystick">
-          <input type="checkbox" />
-          <span class="slider round"></span>
-        </label>
-      </div>
+      {{ macros.toggle("silly", "Silly Mode")}}
     </div>
+    
     <script src="/app.js"></script>
   </body>
 </html>

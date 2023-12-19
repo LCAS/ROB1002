@@ -309,3 +309,17 @@ input:checked+.slider:before {
 .slider.round:before {
     border-radius: 50%;
 }
+
+.toggle-switch {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.toggle-switch label {
+    margin: 5px 0;
+}
+
+.slider-bar label {
+    margin: 10px 0;
+}

@@ -1,7 +1,7 @@
 {% macro slider(name, display_name, starting_value='0.5', min_value='0.1',
 max_value='1.0') -%}
 
-<span>
+<span class="slider-bar">
   <label id="{{ name }}_label" for="{{ name }}"
     >{{ display_name }}: {{ starting_value }}</label
   >
@@ -24,9 +24,33 @@ max_value='1.0') -%}
     // Force to float with 1 decimal place
     let val = parseFloat(slider.value).toFixed(1)
     // Update the label element with the current speed value
-    label.textContent = "{{ display_name }}: " + str(val);
+    label.textContent = "{{ display_name }}: " + String(val);
     // Send the speed value to the server
-    sendCmd(`{{ name }}:${str(val)}`);
+    sendCmd(`{{ name }}:${String(val)}`);
+  });
+</script>
+
+{%- endmacro %}
+
+
+{% macro toggle(name, display_name, starting_value='false') -%}
+
+<span class="toggle-switch">
+  <label id="{{ name }}_label" for="{{ name }}"
+    >{{ display_name }}</label
+  >
+  <label class="switch" id="joystick">
+  <input type="checkbox" id="{{ name }}"/>
+  <span class="slider round"></span>
+</label>
+</span>
+
+<script>
+  const toggle = document.getElementById("{{ name }}");
+
+  toggle.addEventListener("input", () => {
+    // Send the speed value to the server
+    sendCmd(`{{ name }}:${toggle.checked}`);
   });
 </script>
 
