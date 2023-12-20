@@ -1,14 +1,14 @@
 const socket = new WebSocket('ws://' + location.host + '/command');
 
+
+socket.addEventListener('message', ev => {
+    console.log("(app.js) 📣 " + ev.data)
+});
+
 function sendCmd(cmd) {
     console.log("Going " + cmd)
     socket.send(cmd);
 }
-
-// Debug
-socket.addEventListener('message', ev => {
-    console.log(message)
-});
 
 // On Screen Controls
 document.getElementById('left').onclick = ev => {

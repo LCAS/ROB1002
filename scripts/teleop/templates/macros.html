@@ -15,7 +15,7 @@ max_value='1.0') -%}
   />
 </span>
 
-<script>
+<script defer>
   // Slider Controls
   const slider = document.getElementById("{{ name }}");
   const label = document.getElementById("{{ name }}_label");
@@ -27,6 +27,17 @@ max_value='1.0') -%}
     label.textContent = "{{ display_name }}: " + String(val);
     // Send the speed value to the server
     sendCmd(`{{ name }}:${String(val)}`);
+  });
+
+  // Get Speed Updates
+  const mySocket = new WebSocket('ws://' + location.host + '/command');
+  mySocket.addEventListener('message', ev => {
+    console.log("📣 " + ev.data)
+    if ((ev.data).split(":")[0] != "{{ name }}") return;
+
+    let updatedVal = parseFloat((ev.data).split(":")[1]).toFixed(1)
+    label.textContent = "{{ display_name }}: " + String(updatedVal);
+    slider.value = updatedVal;
   });
 </script>
 

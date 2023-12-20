@@ -1,7 +1,6 @@
-from flask import Flask, render_template, send_from_directory, Response, redirect
+from flask import Flask, render_template, send_from_directory, redirect
 from flask_sock import Sock
 import socket 
-import numpy as np
 
 app = Flask(__name__)
 sock = Sock(app)
@@ -23,38 +22,38 @@ def script():
 
 @sock.route('/command')
 def command(sock):
-    
     speed = 0.5
+    cmd = sock.receive().split(':')
+
+    if cmd[0] == "stop":
+        print("🛑 Trilobot Stopped")
     
-    while True:
-        cmd = sock.receive().split(':')
+    elif cmd[0] == "left":
+        print("curve_forward_left" + str(speed))
 
-        if cmd[0] == "left":
-            print("curve_forward_left" + speed)
+    elif cmd[0] == "right":
+        print("curve_forward_right" + str(speed))
 
-        elif cmd[0] == "right":
-            print("curve_forward_right" + speed)
+    elif cmd[0] == "up":
+        print("forward" + str(speed))
 
-        elif cmd[0] == "up":
-            print("forward" + speed)
+    elif cmd[0] == "down":
+        print("backward" + str(speed))
 
-        elif cmd[0] == "down":
-            print("backward" + speed)
+    elif cmd[0] == "speed":
+        speed = float(cmd[1])
+        msg = "speed:" + str(speed)
+        print("🏎️  " + msg)
+        sock.send(msg)
 
-        elif cmd[0] == "stop":
-            print("stop")
-
-        elif cmd[0] == "speed":
-            speed = float(cmd[1])
-
-        else: 
-            print("send either `up` `down` `left` `right` or `stop` to move your robot!")
+    else: 
+        print("send either `up` `down` `left` `right` or `stop` to move your robot!")
 
 @app.route('/video_feed')
 def video_feed():
     """Video streaming route. Put this in the src attribute of an img tag."""
-    return redirect('https://placehold.co/600x400/EEE/31343C')
+    return redirect('https://placehold.co/640x480/EEE/31343C')
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port =5000, debug=False, threaded=True)
+    app.run(host='0.0.0.0', port =5000, debug=False, threaded=False)
     print("Trilobot stopped.")
