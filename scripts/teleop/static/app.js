@@ -10,6 +10,27 @@ function sendCmd(cmd) {
     socket.send(cmd);
 }
 
+// Menu Toggle
+let isMenuOpen = false;
+const robot = document.getElementById('robot')
+const options = document.getElementById('options')
+
+document.getElementById('menu').onclick = ev => {
+    ev.preventDefault();
+    
+    if (isMenuOpen) {
+        // close menu, open robot
+        robot.style.display = "flex";
+        options.style.display = "none";
+        isMenuOpen = false;
+    } else {
+        // open menu, close robot
+        robot.style.display = "none";
+        options.style.display = "flex";
+        isMenuOpen = true;
+    }
+};
+
 // On Screen Controls
 document.getElementById('left').onclick = ev => {
     ev.preventDefault();

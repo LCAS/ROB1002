@@ -29,7 +29,8 @@ body {
     height: 100vh;
     display: flex;
     align-items: center;
-    justify-content: space-around
+    justify-content: space-around;
+    overflow: hidden;
 }
 
 .fullscreen-button {
@@ -133,17 +134,23 @@ h1 {
     justify-content: space-around;
     margin: 20px;
     align-items: center;
+    animation-name: pop-in-out;
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards;
 }
 
 #options {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    align-items: center; 
+    align-items: center;
     margin: 50px;
     padding: 20px;
     height: 100%;
     text-align: center;
+    animation-name: pop-in-out;
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards;
 }
 
 #fwd-back,
@@ -166,47 +173,6 @@ h1 {
     flex-direction: column;
     justify-content: center;
 }
-
-/* Media query for smaller screens
-@media screen and (max-width: 600px) {
-    body {
-        justify-content: flex-start;
-        align-items: flex-start;
-        margin-top: 10px;
-    }
-
-    #robot {
-        justify-content: space-around;
-        flex-direction: column;
-        margin: 5px;
-        align-items: center;
-    }
-
-    #fwd-back,
-    #left-right {
-        flex-direction: row;
-        justify-content: center;
-    }
-
-    #camera {
-        order: -1;
-        width: 90%;
-        align-self: center;
-    }
-
-    #fwd-back {
-        order: 3;
-    }
-
-    #left-right {
-        order: 2;
-    }
-
-    #left-right .btn {
-        background-color: transparent;
-        outline: #48abe0 solid 2px;
-    }
-} */
 
 label {
     font-weight: 600;
@@ -326,4 +292,88 @@ input:checked+.slider:before {
 
 #camera-box {
     margin: 10px;
+    text-align: center;
+}
+
+#taskbar {
+    display: none;
+}
+
+#taskbar .btn {
+    background-color: transparent;
+    outline: var(--primary) solid 2px;
+    height: 50px;
+    width: 50px;
+}
+
+#taskbar svg {
+    padding: 10px;
+    opacity: 0.5;
+}
+
+/* Media query for smaller screens */
+@media screen and (max-width: 818px) {
+    #options {
+        display: none;
+    }
+
+    #robot {
+        margin-top: 0;
+    }
+
+    #camera {
+        width: 90%;
+    }
+
+    body {
+        flex-direction: column;
+        justify-content: flex-start;
+    }
+
+    #taskbar {
+        display: flex;
+        justify-content: flex-end;
+        width: 100%;
+    }
+
+    #stop {
+        height: 80px !important;
+        width: 260px !important;
+    }
+
+    #stop svg {
+        padding: 0px;
+        opacity: 0.5;
+        width: 65px;
+        height: 65px;
+    }
+
+    .btn {
+        height: 90px;
+        width: 90px;
+    }
+}
+
+@keyframes pop-in-out {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+
+    50% {
+        transform: scale(1.2);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Disable animation when user prefers reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation: none;
+    }
 }

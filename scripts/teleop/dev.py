@@ -55,5 +55,5 @@ def video_feed():
     return redirect('https://placehold.co/640x480/EEE/31343C')
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port =5000, debug=False, threaded=False)
+    app.run(host='0.0.0.0', port =5000, debug=False, threaded=True)
     print("Trilobot stopped.")

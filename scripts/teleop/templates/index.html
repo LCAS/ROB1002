@@ -17,6 +17,17 @@
     />
   </head>
   <body>
+    <div id="taskbar">
+      <button id="menu" class="btn">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+        >
+          <path fill="currentColor" d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z" />
+        </svg>
+      </button>
+    </div>
+
     <div id="robot">
       <div id="camera-box">
         <img src="{{ url_for('video_feed') }}" id="camera" />
@@ -90,10 +101,10 @@
     <div id="options">
       <h1 id="hostname">{{ hostname }}</h1>
 
-      {{ macros.slider("speed", "Wheel Speed")}}
-      {{ macros.toggle("silly", "Silly Mode")}}
+      {{ macros.slider("speed", "Wheel Speed")}} {{ macros.toggle("silly",
+      "Silly Mode")}}
     </div>
-    
+
     <script src="/app.js"></script>
   </body>
 </html>
