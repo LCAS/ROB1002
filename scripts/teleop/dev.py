@@ -5,7 +5,8 @@ import socket
 app = Flask(__name__)
 sock = Sock(app)
 
-import time
+connected_clients = set()
+
 
 @app.route('/')
 def index():
@@ -23,31 +24,42 @@ def script():
 @sock.route('/command')
 def command(sock):
     speed = 0.5
-    cmd = sock.receive().split(':')
+    connected_clients.add(sock)
 
-    if cmd[0] == "stop":
-        print("🛑 Trilobot Stopped")
-    
-    elif cmd[0] == "left":
-        print("curve_forward_left" + str(speed))
+    while True:
+        cmd = sock.receive().split(':')
 
-    elif cmd[0] == "right":
-        print("curve_forward_right" + str(speed))
+        if cmd[0] == "stop":
+            print("🛑 Trilobot Stopped")
+        
+        elif cmd[0] == "left":
+            print("curve_forward_left - " + str(speed))
 
-    elif cmd[0] == "up":
-        print("forward" + str(speed))
+        elif cmd[0] == "right":
+            print("curve_forward_right - " + str(speed))
 
-    elif cmd[0] == "down":
-        print("backward" + str(speed))
+        elif cmd[0] == "up":
+            print("forward - " + str(speed))
 
-    elif cmd[0] == "speed":
-        speed = float(cmd[1])
-        msg = "speed:" + str(speed)
-        print("🏎️  " + msg)
-        sock.send(msg)
+        elif cmd[0] == "down":
+            print("backward - " + str(speed))
 
-    else: 
-        print("send either `up` `down` `left` `right` or `stop` to move your robot!")
+        elif cmd[0] == "speed":
+            speed = float(cmd[1])
+            msg = "speed:" + str(speed)
+            print("🏎️  " + msg)
+            broadcast(msg)
+
+        else: 
+            print("send either `up` `down` `left` `right` or `stop` to move your robot!")
+
+def broadcast(msg):
+    for client in connected_clients:
+        try:
+            client.send(msg)
+        except Exception as e:
+            print(f"Error broadcasting to client: {e}")
+            connected_clients.remove(client)
 
 @app.route('/video_feed')
 def video_feed():

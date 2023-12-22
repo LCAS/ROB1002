@@ -26,13 +26,12 @@ max_value='1.0') -%}
     // Update the label element with the current speed value
     label.textContent = "{{ display_name }}: " + String(val);
     // Send the speed value to the server
-    sendCmd(`{{ name }}:${String(val)}`);
+    sendCmd(`{{ name }}:` + String(val));
   });
 
   // Get Speed Updates
   const mySocket = new WebSocket('ws://' + location.host + '/command');
   mySocket.addEventListener('message', ev => {
-    console.log("📣 " + ev.data)
     if ((ev.data).split(":")[0] != "{{ name }}") return;
 
     let updatedVal = parseFloat((ev.data).split(":")[1]).toFixed(1)

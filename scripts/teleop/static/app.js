@@ -1,6 +1,5 @@
 const socket = new WebSocket('ws://' + location.host + '/command');
 
-
 socket.addEventListener('message', ev => {
     console.log("(app.js) 📣 " + ev.data)
 });

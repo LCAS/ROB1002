@@ -42,6 +42,7 @@ class TrilobotController:
 
         @self.sock.route('/command')
         def command(sock):
+            
             while True:
                 # Split the received command by ':' to get speed
                 cmd = sock.receive().split(':')
