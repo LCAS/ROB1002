@@ -82,7 +82,7 @@ def video_gen():
         b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
         # Adjust the sleep duration to control the frame rate
-        time.sleep(0.1)  # Adjust the delay to your desired frame rate
+        time.sleep(0.05)  # Adjust the delay to your desired frame rate
 
 @app.route('/video_feed')
 def video_feed():
