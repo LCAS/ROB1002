@@ -4,9 +4,7 @@ import socket
 
 app = Flask(__name__)
 sock = Sock(app)
-
 connected_clients = set()
-
 
 @app.route('/')
 def index():
@@ -47,7 +45,6 @@ def command(sock):
         elif cmd[0] == "speed":
             speed = float(cmd[1])
             msg = "speed:" + str(speed)
-            print("🏎️  " + msg)
             broadcast(msg)
 
         else: 

@@ -7,13 +7,10 @@ import numpy as np
 
 app = Flask(__name__)
 sock = Sock(app)
+connected_clients = set()
 
-import time
 from trilobot import Trilobot
-
 tbot = Trilobot()
-
-enable_colour_detect = False
 
 picam2 = Picamera2()
 picam2.configure(picam2.create_preview_configuration(main={"format": 'BGR888', "size": (640, 480)})) # opencv works in BGR not RGB
@@ -58,19 +55,25 @@ def command(sock):
 
         elif cmd[0] == "speed":
             speed = float(cmd[1])
-            sock.send("speed:" + str(cmd[1]))
-
+            msg = "speed:" + str(speed)
+            broadcast(msg)
 
         else: 
             print("send either `up` `down` `left` `right` or `stop` to move your robot!")
+
+def broadcast(msg):
+    for client in connected_clients:
+        try:
+            client.send(msg)
+        except Exception as e:
+            print(f"Error broadcasting to client: {e}")
+            connected_clients.remove(client)
 
 # From https://www.aranacorp.com/en/stream-video-from-a-raspberry-pi-to-a-web-browser/
 def video_gen():
     """Video streaming generator function."""
     while True:
         img = picam2.capture_array()
-        if enable_colour_detect:
-            img = colour_detect(img)
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB) # convert back to rgb image
         ret, jpeg = cv2.imencode('.jpg', img)
         frame=jpeg.tobytes()
