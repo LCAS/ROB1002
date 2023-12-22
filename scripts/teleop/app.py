@@ -4,6 +4,7 @@ import socket
 import cv2
 from picamera2 import Picamera2
 import numpy as np
+import time
 
 app = Flask(__name__)
 sock = Sock(app)
@@ -79,6 +80,9 @@ def video_gen():
         frame=jpeg.tobytes()
         yield (b'--frame\r\n'
         b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+
+        # Adjust the sleep duration to control the frame rate
+        time.sleep(0.1)  # Adjust the delay to your desired frame rate
 
 @app.route('/video_feed')
 def video_feed():
